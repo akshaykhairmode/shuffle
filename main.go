@@ -12,14 +12,19 @@ import (
 
 func main() {
 
-	var set int
+	var set, numTag int
 	flag.IntVar(&set, "set", 0, "-set=1")
+	flag.IntVar(&numTag, "num", 0, "-num=27")
 	flag.Parse()
 
 	if flag.NFlag() < 1 {
 		log.Printf("run with set property")
 		flag.PrintDefaults()
 		return
+	}
+
+	if numTag <= 0 {
+		numTag = 27
 	}
 
 	data, err := ioutil.ReadFile("hashtags.txt")
@@ -40,7 +45,10 @@ func main() {
 	})
 
 	fmt.Printf("===============================Set %v=======================================\n", set)
-	for _, ht := range hashtags {
+	for i, ht := range hashtags {
+		if i >= numTag-1 {
+			break
+		}
 		fmt.Println(strings.TrimSpace(ht))
 	}
 	fmt.Println("============================================================================")
